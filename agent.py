@@ -79,7 +79,7 @@ agent = initialize_agent(
     tools,
     llm,
     agent=AgentType.OPENAI_FUNCTIONS,
-    memory=memory
+    memory=memory,
     verbose=True,
     agent_kwargs={"system_message": SYSTEM_PROMPT}
 )
@@ -102,5 +102,6 @@ while True:
         user_input = f"{current_user} wants to apply leave. {user_input}"
 
     response = agent.run(user_input)
+
 
     print("\nAgent:", response)
