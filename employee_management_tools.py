@@ -9,6 +9,8 @@ def hire_employee(name: str, role: str, salary: str) -> str:
     """
 
     from employee_database import add_employee
+    if current_role.lower() not in ["hr", "manager"]:
+        return "Only HR or Managers can hire employees."
 
     add_employee(name, 20)
 
@@ -46,4 +48,5 @@ def fire_employee(name: str) -> str:
     conn.close()
 
     return f"{name} has been removed from the company."
+
 
