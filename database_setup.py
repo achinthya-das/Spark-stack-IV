@@ -9,6 +9,13 @@ CREATE TABLE IF NOT EXISTS employees (
     leave_balance INTEGER
 )
 """)
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS candidates (
+    name TEXT PRIMARY KEY,
+    resume TEXT,
+    status TEXT
+)
+""")
 
 employees = [
     ("Varun", 10),
@@ -23,5 +30,6 @@ cursor.executemany(
 
 conn.commit()
 conn.close()
+
 
 print("Database initialized.")
