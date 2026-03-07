@@ -2,6 +2,7 @@ from langchain.memory import ConversationBufferMemory
 import os
 from dotenv import load_dotenv
 current_user=None
+current_role=None
 
 load_dotenv()
 if not os.getenv("OPENAI_API_KEY"):
@@ -92,7 +93,10 @@ while True:
     # detect name introduction
     if user_input.lower().startswith("i am"):
         current_user = user_input.split("i am")[-1].strip()
-        print(f"\nAgent: Hello {current_user}. How can I help you today?")
+
+        current_role = input("Enter role (HR / Manager / Employee): ")
+
+        print(f"\nAgent: Hello {current_user} ({current_role}). How can I help?")
         continue
 
     if user_input.lower() == "exit":
@@ -105,3 +109,4 @@ while True:
 
 
     print("\nAgent:", response)
+
