@@ -20,6 +20,11 @@ from langchain.tools import tool
 
 DB_NAME = "employees.db"
 
+import sqlite3
+from langchain.tools import tool
+
+DB_NAME = "employees.db"
+
 @tool
 def fire_employee(name: str) -> str:
     """Remove employee from company database"""
@@ -41,3 +46,4 @@ def fire_employee(name: str) -> str:
     conn.close()
 
     return f"{name} has been removed from the company."
+
