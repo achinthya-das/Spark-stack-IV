@@ -15,16 +15,29 @@ def hire_employee(name: str, role: str, salary: str) -> str:
     return f"{name} has been hired as {role} with salary {salary}."
 
 
+import sqlite3
+from langchain.tools import tool
+
+DB_NAME = "employees.db"
+
 @tool
 def fire_employee(name: str) -> str:
-    """
-    Remove an employee from the company database.
-    """
+    """Remove employee from company database"""
 
-    if name not in employees:
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM employees WHERE name=?",
+        (name.title(),)
+    )
+
+    conn.commit()
+
+    if cursor.rowcount == 0:
+        conn.close()
         return "Employee not found."
 
-    del employees[name]
-    del leave_balance[name]
+    conn.close()
 
     return f"{name} has been removed from the company."
