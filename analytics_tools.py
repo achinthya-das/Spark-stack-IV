@@ -20,11 +20,19 @@ leave_data = {
 
 @tool
 def get_total_candidates() -> str:
-    """
-    Return total number of candidates in the recruitment pipeline.
-    """
 
-    return f"Total candidates in system: {len(candidates)}"
+    import sqlite3
+
+    conn = sqlite3.connect("employees.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM candidates")
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return f"Total candidates in system: {total}"
 
 
 @tool
@@ -63,4 +71,5 @@ Interview Statistics:
 Interviewed: {interviewed}
 Hired: {hired}
 Rejected: {rejected}
+
 """
