@@ -1,5 +1,6 @@
 from langchain.tools import tool
 from employee_database import employees, leave_balance
+from agent import current_role
 
 
 @tool
@@ -48,5 +49,6 @@ def fire_employee(name: str) -> str:
     conn.close()
 
     return f"{name} has been removed from the company."
+
 
 
