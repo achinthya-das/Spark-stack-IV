@@ -16,7 +16,7 @@ An AI-powered HR assistant built using LangChain and OpenAI.
 
 Clone the repository
 
-git clone https://github.com/yourusername/hr-ai-agent
+git clone https://github.com/achinthya-das/Spark-stack-IV.git
 
 cd hr-ai-agent
 
@@ -44,5 +44,6 @@ Build Docker image
 docker build -t hr-ai-agent .
 
 Run container
+
 
 docker run -it -e OPENAI_API_KEY=your_openai_api_key hr-ai-agent
