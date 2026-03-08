@@ -1,6 +1,6 @@
 from langchain.tools import tool
-from employee_database import employees, leave_balance
-from agent import current_role
+from employee_database import get_leave_balance, update_leave_balance
+import sqlite3
 
 
 @tool
@@ -8,9 +8,9 @@ def hire_employee(name: str, role: str, salary: str) -> str:
     """
     Add a new employee to the company database.
     """
-
+    import agent
     from employee_database import add_employee
-    if current_role.lower() not in ["hr", "manager"]:
+    if not agent.current_role or agent.current_role.lower() not in ["hr", "manager"]:
         return "Only HR or Managers can hire employees."
 
     add_employee(name, 20)
@@ -19,7 +19,6 @@ def hire_employee(name: str, role: str, salary: str) -> str:
 
 
 import sqlite3
-from langchain.tools import tool
 
 DB_NAME = "employees.db"
 
@@ -49,6 +48,5 @@ def fire_employee(name: str) -> str:
     conn.close()
 
     return f"{name} has been removed from the company."
-
 
 

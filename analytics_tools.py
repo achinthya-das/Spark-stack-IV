@@ -1,5 +1,4 @@
 from langchain.tools import tool
-from employee_database import employees
 
 # Simulated data
 candidates = [
@@ -9,25 +8,17 @@ candidates = [
     {"name": "David", "status": "Interviewed"}
 ]
 
-employees = ["Alice", "Bob", "Eve"]
-
-leave_data = {
-    "Alice": 3,
-    "Bob": 5,
-    "Eve": 2
-}
-
 
 @tool
 def get_total_candidates() -> str:
-
+    """Return total number of candidates in database."""
+    
     import sqlite3
 
     conn = sqlite3.connect("employees.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM candidates")
-
     total = cursor.fetchone()[0]
 
     conn.close()
@@ -37,39 +28,46 @@ def get_total_candidates() -> str:
 
 @tool
 def get_total_employees() -> str:
-    """
-    Return total number of employees.
-    """
+    """Return total employees and their names from the database."""
 
-    return f"Total employees in company: {len(employees)}"
+    import sqlite3
+
+    conn = sqlite3.connect("employees.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT name FROM employees")
+    employees = cursor.fetchall()
+
+    conn.close()
+
+    names = [emp[0] for emp in employees]
+
+    return f"Total employees in company: {len(names)}\nEmployees: {', '.join(names)}"
 
 
 @tool
 def get_leave_summary() -> str:
-    """
-    Show how many leave days employees have taken.
-    """
+    """Show leave balance summary of all employees."""
 
-    summary = "\n".join([f"{emp}: {days} leave days taken"
-                         for emp, days in leave_data.items()])
+    import sqlite3
+
+    conn = sqlite3.connect("employees.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT name, leave_balance FROM employees")
+    data = cursor.fetchall()
+
+    conn.close()
+
+    summary = "\n".join(
+        [f"{name}: {balance} leave days remaining" for name, balance in data]
+    )
 
     return f"Leave Summary:\n{summary}"
 
 
 @tool
 def get_interview_stats() -> str:
-    """
-    Show interview statistics.
-    """
+    """Return interview statistics."""
 
-    interviewed = sum(1 for c in candidates if c["status"] == "Interviewed")
-    hired = sum(1 for c in candidates if c["status"] == "Hired")
-    rejected = sum(1 for c in candidates if c["status"] == "Rejected")
-
-    return f"""
-Interview Statistics:
-Interviewed: {interviewed}
-Hired: {hired}
-Rejected: {rejected}
-
-"""
+    return "Interview statistics feature currently uses simulated data."
